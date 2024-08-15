@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In</title>
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 2vw;
+            font-family: Roboto, -apple-system, 'Helvetica Neue', 'Segoe UI', Arial, sans-serif;
+            background: #3b4465;
+        }
+
+        .forms-section {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .section-title {
+            font-size: 3.2vw;
+            letter-spacing: 1px;
+            color: #fff;
+        }
+
+        .forms {
+            display: flex;
+            align-items: flex-start;
+            margin-top: 2vw;
+        }
+
+        .form-wrapper {
+            animation: hideLayer .3s ease-out forwards;
+        }
+
+        .form-wrapper.is-active {
+            animation: showLayer .3s ease-in forwards;
+        }
+
+        @keyframes showLayer {
+            50% {
+                z-index: 1;
+            }
+            100% {
+                z-index: 1;
+            }
+        }
+
+        @keyframes hideLayer {
+            0% {
+                z-index: 1;
+            }
+            49.999% {
+                z-index: 1;
+            }
+        }
+
+        .switcher {
+            position: relative;
+            cursor: pointer;
+            display: block;
+            margin-right: auto;
+            margin-left: auto;
+            padding: 0;
+            text-transform: uppercase;
+            font-family: inherit;
+            font-size: 1.6vw;
+            letter-spacing: .5px;
+            color: #999;
+            background-color: transparent;
+            border: none;
+            outline: none;
+            transform: translateX(0);
+            transition: all .3s ease-out;
+        }
+
+        .form-wrapper.is-active .switcher-login {
+            color: #fff;
+            transform: translateX(90px);
+        }
+
+        .form-wrapper.is-active .switcher-signup {
+            color: #fff;
+            transform: translateX(-90px);
+        }
+
+        .underline {
+            position: absolute;
+            bottom: -0.5vw;
+            left: 0;
+            overflow: hidden;
+            pointer-events: none;
+            width: 100%;
+            height: 0.2vw;
+        }
+
+        .underline::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: inherit;
+            display: block;
+            width: inherit;
+            height: inherit;
+            background-color: currentColor;
+            transition: transform .2s ease-out;
+        }
+
+        .switcher-login .underline::before {
+            transform: translateX(101%);
+        }
+
+        .switcher-signup .underline::before {
+            transform: translateX(-101%);
+        }
+
+        .form-wrapper.is-active .underline::before {
+            transform: translateX(0);
+        }
+
+        .form {
+            overflow: hidden;
+            min-width: 26vw;
+            margin-top: 4vw;
+            padding: 3vw 2vw;
+            border-radius: 0.5vw;
+            transform-origin: top;
+        }
+
+        .form-login {
+            animation: hideLogin .3s ease-out forwards;
+        }
+
+        .form-wrapper.is-active .form-login {
+            animation: showLogin .3s ease-in forwards;
+        }
+
+        @keyframes showLogin {
+            0% {
+                background: #d7e7f1;
+                transform: translate(40%, 10px);
+            }
+            50% {
+                transform: translate(0, 0);
+            }
+            100% {
+                background-color: #fff;
+                transform: translate(35%, -20px);
+            }
+        }
+
+        @keyframes hideLogin {
+            0% {
+                background-color: #fff;
+                transform: translate(35%, -20px);
+            }
+            50% {
+                transform: translate(0, 0);
+            }
+            100% {
+                background: #d7e7f1;
+                transform: translate(40%, 10px);
+            }
+        }
+
+        .form-signup {
+            animation: hideSignup .3s ease-out forwards;
+        }
+
+        .form-wrapper.is-active .form-signup {
+            animation: showSignup .3s ease-in forwards;
+        }
+
+        @keyframes showSignup {
+            0% {
+                background: #d7e7f1;
+                transform: translate(-40%, 10px) scaleY(.8);
+            }
+            50% {
+                transform: translate(0, 0) scaleY(.8);
+            }
+            100% {
+                background-color: #fff;
+                transform: translate(-35%, -20px) scaleY(1);
+            }
+        }
+
+        @keyframes hideSignup {
+            0% {
+                background-color: #fff;
+                transform: translate(-35%, -20px) scaleY(1);
+            }
+            50% {
+                transform: translate(0, 0) scaleY(.8);
+            }
+            100% {
+                background: #d7e7f1;
+                transform: translate(-40%, 10px) scaleY(.8);
+            }
+        }
+
+        .form fieldset {
+            position: relative;
+            opacity: 0;
+            margin: 0;
+            padding: 0;
+            border: 0;
+            transition: all .3s ease-out;
+        }
+
+        .form-login fieldset {
+            transform: translateX(-50%);
+        }
+
+        .form-signup fieldset {
+            transform: translateX(50%);
+        }
+
+        .form-wrapper.is-active fieldset {
+            opacity: 1;
+            transform: translateX(0);
+            transition: opacity .4s ease-in, transform .35s ease-in;
+        }
+
+        .form legend {
+            position: absolute;
+            overflow: hidden;
+            width: 1px;
+            height: 1px;
+            clip: rect(0 0 0 0);
+        }
+
+        .input-block {
+            margin-bottom: 0.2vw;
+        }
+
+        .input-block label {
+            font-size: 14px;
+            color: #a1b4b4;
+        }
+
+        .input-block input {
+            display: block;
+            width: 100%;
+            margin-top: 0.8vw;
+            padding-right: 1.5vw;
+            padding-left: 1.5vw;
+            font-size: 16px;
+            line-height: 4vw;
+            color: #3b4465;
+            background: #eef9fe;
+            border: 1px solid #cddbef;
+            border-radius: 2px;
+        }
+
+        .form [type='submit'] {
+            opacity: 0;
+            display: block;
+            min-width: 120px;
+            margin: 30px auto 10px;
+            font-size: 18px;
+            line-height: 40px;
+            border-radius: 25px;
+            border: none;
+            transition: all .3s ease-out;
+        }
+
+        .form-wrapper.is-active .form [type='submit'] {
+            opacity: 1;
+            transform: translateX(0);
+            transition: all .4s ease-in;
+        }
+
+        .btn-login {
+            color: #fbfdff;
+            background: #a7e245;
+            transform: translateX(-30%);
+        }
+
+        .btn-signup {
+            color: #a7e245;
+            background: #fbfdff;
+            box-shadow: inset 0 0 0 2px #a7e245;
+            transform: translateX(30%);
+        }
+
+        .flash-message {
+            color: red; /* or use a color of your choice */
+            font-size: 14px;
+            margin-top: 5px;
+            text-align: center;
+        }
+
+        input[type="number"] {
+            -moz-appearance: textfield;
+        }
+    </style>
+</head>
+<body>
+    <section class="forms-section">
+        <h1 class="section-title">CONNCHAT<a href="/"><svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24"><path d="M5 18v3.766l1.515-.909L11.277 18H16c1.103 0 2-.897 2-2V8c0-1.103-.897-2-2-2H4c-1.103 0-2 .897-2 2v8c0 1.103.897 2 2 2h1zM4 8h12v8h-5.277L7 18.234V16H4V8z"/><path d="M20 2H8c-1.103 0-2 .897-2 2h12c1.103 0 2 .897 2 2v8c1.103 0 2-.897 2-2V4c0-1.103-.897-2-2-2z"/></svg></a></h1>
+        
+        <!-- Flash message display -->
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            <div class="flash-message">
+                <p>{{ messages[-1] }}</p>
+            </div>
+          {% endif %}
+        {% endwith %}
+        <div class="forms">
+            <div class="form-wrapper is-active">
+                <button type="button" class="switcher switcher-login">
+                    Login
+                    <span class="underline"></span>
+                </button>
+                <form class="form form-login" method="POST">
+                    <fieldset>
+                        <legend>Please, enter your email and password for login.</legend>
+                        <div class="input-block">
+                            <label for="login-email">Contact Number</label>
+                            <input id="login-email" name="userid" type="number" value="any" required>
+                        </div>
+                        <div class="input-block">
+                            <label for="login-password">Password</label>
+                            <input id="login-password" name="password" type="password" required>
+                        </div>
+                    </fieldset>
+                    <button type="submit" name="action" value="signin" class="btn-login">Login</button>
+                </form>
+            </div>
+            <div class="form-wrapper">
+                <button type="button" class="switcher switcher-signup">
+                    Sign Up
+                    <span class="underline"></span>
+                </button>
+                <form class="form form-signup" method="POST">
+                    <fieldset>
+                        <legend>Please, enter your email, password and password confirmation for sign up.</legend>
+                        <div class="input-block">
+                            <label for="signup-email">Contact Number</label>
+                            <input id="signup-email" name="number" type="number" required>
+                        </div>
+                        <div class="input-block">
+                            <label for="signup-password">Password</label>
+                            <input id="signup-password" name="pass" type="password" required>
+                        </div>
+                        <div class="input-block">
+                            <label for="signup-password-confirm">Confirm password</label>
+                            <input id="signup-password-confirm" name="pass2" type="password" required>
+                        </div>
+                    </fieldset>
+                    <button type="submit" name="action" value="signup" class="btn-signup">Continue</button>
+                </form>
+            </div>
+        </div>
+    </section>
+</body>
+<script>
+    const switchers = [...document.querySelectorAll('.switcher')]
+    switchers.forEach(item => {
+        item.addEventListener('click', function() {
+            switchers.forEach(item => item.parentElement.classList.remove('is-active'))
+            this.parentElement.classList.add('is-active')
+        })
+    })
+</script>
+
+</html>
