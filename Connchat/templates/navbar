@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Navbar</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 5px 20px;
+            background-color: rgb(3, 21, 76);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 24px;
+            color: rgb(250, 251, 252);
+        }
+
+        .nav-list {
+            display: flex; /* Keep nav-list as flexbox for inline display */
+            list-style: none;
+            gap: 15px; /* Space between buttons */
+            margin: 0; /* Remove default margin */
+            padding: 0; /* Remove default padding */
+        }
+
+        .nav-list button {
+            margin: 0; /* Removed margin for buttons */
+        }
+
+        button {
+            padding: 10px 15px; /* Adjusted padding */
+            border-radius: 20px;
+            border: none;
+            background: #282f6f;
+            font-size: 16px;
+            font-weight: 400;
+            color: #fff;
+            cursor: pointer; /* Changed cursor to pointer */
+            transition: background-color 0.3s; /* Smooth transition */
+        }
+
+        button:hover {
+            background: #6c80c6;
+        }
+
+        .nav-list a {
+            text-decoration: none;
+            color: rgb(253, 248, 248);
+            font-size: 18px;
+            transition: color 0.3s;
+        }
+
+        .nav-list a:hover {
+            color: #1d5b84;
+        }
+
+        .menu-icon {
+            display: none; /* Hide by default */
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .menu-icon div {
+            width: 25px;
+            height: 3px;
+            background: white;
+            margin: 4px 0;
+            transition: all 0.3s ease;
+        }
+
+        @media (max-width: 768px) {
+            .nav-list {
+                position: absolute;
+                top: 60px; /* Position below navbar */
+                left: 0;
+                right: 0;
+                background-color: rgb(3, 21, 76);
+                flex-direction: column; /* Stack items vertically */
+                align-items: center;
+                gap: 10px;
+                z-index: 5;
+                display: none; /* Hide by default */
+            }
+
+            .navbar.active .nav-list {
+                display: flex; /* Show links when active */
+            }
+
+            .menu-icon {
+                display: flex; /* Show hamburger menu */
+            }
+
+            .nav-list button {
+                width: 100%; /* Make buttons full width in mobile view */
+                text-align: center; /* Center text in buttons */
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="logo">CONNCHAT<a href=""><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAYAAADhAJiYAAABXElEQVRYR+2WgQ2CQAxFZQLdQN3AEdzAFdhAN1An0BFwE0fQCcQNdAL93xzmbIArWAETmjRRoOXdb8tdNOiYRR3jGfw10B5qLuATI1VT5EngWz+fViHCLI1AZBoCbbKLWqAbAoY/AqJS06pAViwsdwxfi4RvYbQKWQFleVgiH6p1ICp18VZZCtTINAHmoQFqbJq0QI1NkxYoV8YvO7oop6pkPZBTv3DKeoV6hYrG27t+xW9+uV8m97I2eqj0+NEkUApBEjg32re1qVDu97YHCm1DUqGyzfWj+ZB4BN/B49BL3P2PaSqKkUBsMHm8zGJ9oJV7jlBakwtS9RAfIhRXPRYRTHh0qsy0FHiOyiQubzAsdKb2FUuRbSIynvGfahHUxKoA+S+8uxXzhGlqdYAOThUOgLlVATIvT95qNEDsEfaSeXnqAM0RdIL/pDx1gMx7JJQwVLJQvPn9zgE9AXOYViWc4ajdAAAAAElFTkSuQmCC"/></a></div>
+        <div class="menu-icon" onclick="toggleMenu()">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <ul class="nav-list">
+            <li><a href="/post_data"><button>Post</button></a></li>
+            <li><a href="/posts"><button>Sended</button></a></li>
+            <li><a href="/notify"><button>Received</button></a></li>
+            <li><a href="/logout"><button>Logout</button></a></li>
+        </ul>
+    </nav>
+
+    <script>
+        function toggleMenu() {
+            const navbar = document.querySelector('.navbar');
+            navbar.classList.toggle('active');
+        }
+    </script>
+</body>
+
+</html>
