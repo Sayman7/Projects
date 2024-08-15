@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sended</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #3b4465;
+            padding-top: 100px;
+            overflow-x: hidden; /* Prevent horizontal overflow */
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            overflow-x: auto; /* Allow horizontal scrolling if necessary */
+        }
+
+        table {
+            width: 100%;
+            max-width: 1000px; /* Set a max width for the table */
+            margin: 20px auto; /* Center the table horizontally */
+            border-collapse: collapse;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        th,
+        td {
+            padding: 12px 15px;
+            text-align: left;
+            border: 1px solid #ddd;
+            word-wrap: break-word; /* Allow long words to break */
+            overflow: hidden; /* Prevent overflow */
+            white-space: normal; /* Allow text to wrap */
+            height: auto; /* Set height to auto to accommodate content */
+            max-width: 250px; /* Set a max width for the columns */
+        }
+
+        th {
+            background-color: #0d0e0e;
+            color: white;
+            font-size: 16px;
+        }
+
+        td {
+            background-color: #f9f9f9;
+        }
+
+        tr:nth-child(even) td {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover td {
+            background-color: #e0f7fa;
+            transition: background-color 0.3s ease;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            table {
+                display: block; /* Display table as block */
+                overflow-x: auto; /* Enable horizontal scrolling */
+                white-space: nowrap; /* Prevent text wrapping in table headers */
+            }
+
+            thead,
+            tbody,
+            th,
+            td,
+            tr {
+                display: block; /* Each element will be a block */
+                width: 100%; /* Full width */
+            }
+
+            tr {
+                margin-bottom: 10px; /* Spacing between rows */
+                background-color: #fff;
+                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            }
+
+            th {
+                display: none; /* Hide headers on mobile */
+            }
+
+            td {
+                text-align: right; /* Align text to the right */
+                position: relative;
+                padding-left: 50%; /* Space for labels */
+                border: none; /* Remove borders */
+                border-bottom: 1px solid #ddd; /* Add bottom border */
+            }
+
+            td::before {
+                content: attr(data-label); /* Show data label */
+                position: absolute;
+                left: 10px; /* Left padding */
+                width: calc(50% - 20px); /* Width of the label */
+                padding-right: 10px; /* Space on the right */
+                text-align: left; /* Align to the left */
+                font-weight: bold; /* Bold text for labels */
+            }
+        }
+    </style>
+</head>
+
+<body>
+    {% include 'navbar.html' %}
+
+    <div class="container">
+        {% if allChats|length == 0 %}
+        <div class="alert alert-dark" role="alert">
+            No Data found. Add your first post now!
+        </div>
+        {% else %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">To</th>
+                    <th scope="col">Message</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for chat in allChats %}
+                {% if id == chat.sender %}
+                <tr>
+                    <td data-label="To">{{ chat.receiver }}</td>
+                    <td data-label="Message">{{ chat.message }}</td>
+                </tr>
+                {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+        {% endif %}
+    </div>
+
+    <script>
+        const mobileMenu = document.getElementById('mobile-menu');
+        const navList = document.querySelector('.nav-list');
+
+        mobileMenu.addEventListener('click', () => {
+            navList.classList.toggle('active'); // Toggle the active class
+        });
+    </script>
+</body>
+
+</html>
